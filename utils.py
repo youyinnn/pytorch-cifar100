@@ -28,7 +28,7 @@ def get_network(args):
     if args.net == 'vgg16':
         from models.vgg import vgg16_bn
         net = vgg16_bn()
-    if args.net == 'pt_vgg16':
+    elif args.net == 'pt_vgg16':
         from torchvision import models
         net = models.vgg16()
         in_features = net.classifier[-1].in_features
