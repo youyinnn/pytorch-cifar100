@@ -14,6 +14,7 @@ from torch.optim.lr_scheduler import _LRScheduler
 import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
+import torch.nn as nn
 
 
 def get_device():
@@ -72,6 +73,11 @@ def get_network(args):
     elif args.net == 'resnet50':
         from models.resnet import resnet50
         net = resnet50()
+    elif args.net == 'pt_resnet50':
+        from torchvision import models
+        net = models.resnet50(weights=None)
+        num_ftrs = net.fc.in_features
+        net.fc = nn.Linear(num_ftrs, 100)
     elif args.net == 'resnet101':
         from models.resnet import resnet101
         net = resnet101()
