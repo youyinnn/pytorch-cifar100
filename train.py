@@ -145,6 +145,8 @@ if __name__ == '__main__':
                         help='momentum')
     parser.add_argument('-weight_decay', type=float, default=5e-4,
                         help='weight_decay')
+    parser.add_argument('-nesterov', action='store_true',
+                        default=False, help='nesterov on SGD')
     parser.add_argument('-gamma', type=float, default=0.2,
                         help='gamma')
     parser.add_argument('-warm', type=int, default=1,
@@ -178,7 +180,7 @@ if __name__ == '__main__':
 
     loss_function = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=args.lr,
-                          momentum=args.momentum, weight_decay=args.weight_decay)
+                          momentum=args.momentum, weight_decay=args.weight_decay, nesterov=args.nesterov)
     train_scheduler = optim.lr_scheduler.MultiStepLR(
         optimizer, milestones=settings.MILESTONES, gamma=args.gamma)  # learning rate decay
     iter_per_epoch = len(cifar100_training_loader)
