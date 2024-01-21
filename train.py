@@ -142,7 +142,11 @@ if __name__ == '__main__':
     parser.add_argument('-nw', type=int, default=0,
                         help='number of worker for dataloader')
     parser.add_argument('-momentum', type=float, default=0.9,
-                        help='number of worker for dataloader')
+                        help='momentum')
+    parser.add_argument('-weight_decay', type=float, default=5e-4,
+                        help='weight_decay')
+    parser.add_argument('-gamma', type=float, default=0.2,
+                        help='gamma')
     parser.add_argument('-warm', type=int, default=1,
                         help='warm up training phase')
     parser.add_argument('-lr', type=float, default=0.1,
@@ -174,9 +178,9 @@ if __name__ == '__main__':
 
     loss_function = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=args.lr,
-                          momentum=args.momentum, weight_decay=5e-4)
+                          momentum=args.momentum, weight_decay=args.weight_decay)
     train_scheduler = optim.lr_scheduler.MultiStepLR(
-        optimizer, milestones=settings.MILESTONES, gamma=0.2)  # learning rate decay
+        optimizer, milestones=settings.MILESTONES, gamma=args.gamma)  # learning rate decay
     iter_per_epoch = len(cifar100_training_loader)
     warmup_scheduler = WarmUpLR(optimizer, iter_per_epoch * args.warm)
 
