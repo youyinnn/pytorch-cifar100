@@ -28,6 +28,12 @@ def get_network(args):
     if args.net == 'vgg16':
         from models.vgg import vgg16_bn
         net = vgg16_bn()
+    if args.net == 'pt_vgg16':
+        from torchvision import models
+        net = models.vgg16()
+        in_features = net.classifier[-1].in_features
+        net.classifier[-1] = nn.Linear(in_features=in_features,
+                                       out_features=100)
     elif args.net == 'vgg13':
         from models.vgg import vgg13_bn
         net = vgg13_bn()
